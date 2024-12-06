@@ -16,16 +16,18 @@ const App: React.FC = () => {
     const selected = services.filter((service) =>
       selectedServices.includes(service.name)
     );
-    const oneTimeCost = selected.reduce((acc, service) => acc + service.oneTimeCost, 0);
-    const monthlyCost = selected.reduce((acc, service) => acc + (service.monthlyCost || 0), 0);
+    const oneTimeCost = selected.reduce(
+      (acc, service) => acc + service.oneTimeCost,
+      0
+    );
 
-    return { oneTimeCost, monthlyCost };
+    return { oneTimeCost };
   };
 
-  const { oneTimeCost, monthlyCost } = calculateCosts();
+  const { oneTimeCost } = calculateCosts();
 
   return (
-    <div>
+    <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
       <h1>Service Calculator</h1>
       <ul>
         {services.map((service) => (
@@ -38,12 +40,14 @@ const App: React.FC = () => {
               />
               {service.name} (${service.oneTimeCost})
             </label>
+            <p style={{ margin: "0 0 10px 20px", fontSize: "0.9em" }}>
+              {service.explanation}
+            </p>
           </li>
         ))}
       </ul>
       <h2>Total Costs</h2>
       <p>One-Time Cost: ${oneTimeCost}</p>
-      <p>Monthly Cost: ${monthlyCost}</p>
     </div>
   );
 };

@@ -1,5 +1,16 @@
 import React, { useState } from "react";
 import { services } from "./data";
+import {
+  Container,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Checkbox,
+  Divider,
+  Box,
+  Paper,
+} from "@mui/material";
 
 const App: React.FC = () => {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
@@ -27,28 +38,47 @@ const App: React.FC = () => {
   const { oneTimeCost } = calculateCosts();
 
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
-      <h1>Service Calculator</h1>
-      <ul>
-        {services.map((service) => (
-          <li key={service.name}>
-            <label>
-              <input
-                type="checkbox"
-                checked={selectedServices.includes(service.name)}
-                onChange={() => toggleService(service.name)}
-              />
-              {service.name} (${service.oneTimeCost})
-            </label>
-            <p style={{ margin: "0 0 10px 20px", fontSize: "0.9em" }}>
-              {service.explanation}
-            </p>
-          </li>
-        ))}
-      </ul>
-      <h2>Total Costs</h2>
-      <p>One-Time Cost: ${oneTimeCost}</p>
-    </div>
+    <Container maxWidth="md" style={{ marginTop: "30px" }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Professional Service Calculator
+      </Typography>
+      <Typography variant="subtitle1" align="center" gutterBottom>
+        Select services to calculate your total costs.
+      </Typography>
+
+      <Paper elevation={3} style={{ padding: "20px", marginBottom: "20px" }}>
+        <List>
+          {services.map((service) => (
+            <React.Fragment key={service.name}>
+              <ListItem>
+                <Checkbox
+                  checked={selectedServices.includes(service.name)}
+                  onChange={() => toggleService(service.name)}
+                  color="primary"
+                />
+                <ListItemText
+                  primary={service.name}
+                  secondary={`${service.explanation} (One-Time Cost: $${service.oneTimeCost})`}
+                />
+              </ListItem>
+              <Divider />
+            </React.Fragment>
+          ))}
+        </List>
+      </Paper>
+
+      <Paper elevation={3} style={{ padding: "20px" }}>
+        <Typography variant="h5" gutterBottom>
+          Total Costs
+        </Typography>
+        <Box display="flex" justifyContent="space-between" mt={2}>
+          <Typography variant="body1">One-Time Cost:</Typography>
+          <Typography variant="body1" style={{ fontWeight: "bold" }}>
+            ${oneTimeCost}
+          </Typography>
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 
